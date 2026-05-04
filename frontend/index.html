@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Trust Bank | DBMS Project</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo">
+            <i class="fas fa-university"></i>
+            <h2>Global Trust</h2>
+        </div>
+        <ul class="nav-links">
+            <li class="active" onclick="showSection('dashboard')"><i class="fas fa-home"></i> Dashboard</li>
+            <li onclick="showSection('customers')"><i class="fas fa-users"></i> Customers</li>
+            <li onclick="showSection('accounts')"><i class="fas fa-wallet"></i> Accounts</li>
+            <li onclick="showSection('transactions')"><i class="fas fa-exchange-alt"></i> Transactions</li>
+            <li onclick="showSection('loans')"><i class="fas fa-hand-holding-usd"></i> Loans</li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <div class="header-title">
+                <h1 id="page-title">Dashboard</h1>
+                <p>Welcome to the Oracle DBMS Banking System</p>
+            </div>
+            <div class="user-profile">
+                <span>Admin User</span>
+                <i class="fas fa-user-circle"></i>
+            </div>
+        </header>
+
+        <!-- DASHBOARD SECTION -->
+        <section id="dashboard" class="content-section active">
+            <div class="cards-container">
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-users"></i></div>
+                    <div class="card-info">
+                        <h3>Total Customers</h3>
+                        <p id="dash-customers">0</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-wallet"></i></div>
+                    <div class="card-info">
+                        <h3>Active Accounts</h3>
+                        <p id="dash-accounts">0</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-money-bill-wave"></i></div>
+                    <div class="card-info">
+                        <h3>Total Deposits</h3>
+                        <p id="dash-balance">$0.00</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                    <div class="card-info">
+                        <h3>Total Loans</h3>
+                        <p id="dash-loans">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recent-activity">
+                <h2>Recent Transactions</h2>
+                <div class="table-container">
+                    <table id="dash-txn-table">
+                        <thead>
+                            <tr>
+                                <th>Txn ID</th>
+                                <th>Account</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- CUSTOMERS SECTION -->
+        <section id="customers" class="content-section">
+            <div class="section-header">
+                <h2>Customer Management</h2>
+                <button class="btn primary" onclick="openModal('customerModal')"><i class="fas fa-plus"></i> Add Customer</button>
+            </div>
+            <div class="table-container">
+                <table id="customers-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ACCOUNTS SECTION -->
+        <section id="accounts" class="content-section">
+            <div class="section-header">
+                <h2>Account Management</h2>
+                <button class="btn primary" onclick="openModal('accountModal')"><i class="fas fa-plus"></i> Open Account</button>
+            </div>
+            <div class="table-container">
+                <table id="accounts-table">
+                    <thead>
+                        <tr>
+                            <th>A/c No</th>
+                            <th>Customer ID</th>
+                            <th>Type</th>
+                            <th>Balance</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- TRANSACTIONS SECTION -->
+        <section id="transactions" class="content-section">
+            <div class="section-header">
+                <h2>Transactions</h2>
+                <div class="txn-actions">
+                    <button class="btn success" onclick="openModal('depositModal')"><i class="fas fa-arrow-down"></i> Deposit</button>
+                    <button class="btn danger" onclick="openModal('withdrawModal')"><i class="fas fa-arrow-up"></i> Withdraw</button>
+                    <button class="btn warning" onclick="openModal('transferModal')"><i class="fas fa-exchange-alt"></i> Transfer</button>
+                </div>
+            </div>
+            <div class="table-container">
+                <table id="transactions-table">
+                    <thead>
+                        <tr>
+                            <th>Txn ID</th>
+                            <th>Account No</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Description</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- LOANS SECTION -->
+        <section id="loans" class="content-section">
+            <div class="section-header">
+                <h2>Loan Management</h2>
+                <button class="btn primary" onclick="openModal('loanModal')"><i class="fas fa-plus"></i> Apply for Loan</button>
+            </div>
+            <div class="table-container">
+                <table id="loans-table">
+                    <thead>
+                        <tr>
+                            <th>Loan ID</th>
+                            <th>Customer ID</th>
+                            <th>Branch ID</th>
+                            <th>Amount</th>
+                            <th>Rate</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- MODALS FOR FORMS -->
+    
+    <!-- Add Customer Modal -->
+    <div id="customerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('customerModal')">&times;</span>
+            <h2>Add New Customer</h2>
+            <form id="form-customer" onsubmit="handleCustomerSubmit(event)">
+                <div class="form-group">
+                    <label>First Name</label>
+                    <input type="text" id="cust-first" required>
+                </div>
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" id="cust-last" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="text" id="cust-phone" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="cust-email" required>
+                </div>
+                <button type="submit" class="btn primary full-width">Save Customer</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Account Modal -->
+    <div id="accountModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('accountModal')">&times;</span>
+            <h2>Open New Account</h2>
+            <form id="form-account" onsubmit="handleAccountSubmit(event)">
+                <div class="form-group">
+                    <label>Customer ID</label>
+                    <input type="number" id="acc-cust-id" required>
+                </div>
+                <div class="form-group">
+                    <label>Branch ID</label>
+                    <select id="acc-branch" required>
+                        <option value="BR001">BR001 - Downtown</option>
+                        <option value="BR002">BR002 - Westside</option>
+                        <option value="BR003">BR003 - Northpark</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Account Type</label>
+                    <select id="acc-type" required>
+                        <option value="SAVINGS">Savings</option>
+                        <option value="CURRENT">Current</option>
+                        <option value="SALARY">Salary</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn primary full-width">Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Deposit Modal -->
+    <div id="depositModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('depositModal')">&times;</span>
+            <h2>Deposit Money</h2>
+            <form id="form-deposit" onsubmit="handleDeposit(event)">
+                <div class="form-group">
+                    <label>Account Number</label>
+                    <input type="number" id="dep-acc" required>
+                </div>
+                <div class="form-group">
+                    <label>Amount ($)</label>
+                    <input type="number" id="dep-amt" min="1" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" id="dep-desc" value="Cash Deposit">
+                </div>
+                <button type="submit" class="btn success full-width">Confirm Deposit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Withdraw Modal -->
+    <div id="withdrawModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('withdrawModal')">&times;</span>
+            <h2>Withdraw Money</h2>
+            <form id="form-withdraw" onsubmit="handleWithdraw(event)">
+                <div class="form-group">
+                    <label>Account Number</label>
+                    <input type="number" id="with-acc" required>
+                </div>
+                <div class="form-group">
+                    <label>Amount ($)</label>
+                    <input type="number" id="with-amt" min="1" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" id="with-desc" value="ATM Withdrawal">
+                </div>
+                <button type="submit" class="btn danger full-width">Confirm Withdrawal</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Transfer Modal -->
+    <div id="transferModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('transferModal')">&times;</span>
+            <h2>Transfer Money</h2>
+            <form id="form-transfer" onsubmit="handleTransfer(event)">
+                <div class="form-group">
+                    <label>From Account</label>
+                    <input type="number" id="trf-from" required>
+                </div>
+                <div class="form-group">
+                    <label>To Account</label>
+                    <input type="number" id="trf-to" required>
+                </div>
+                <div class="form-group">
+                    <label>Amount ($)</label>
+                    <input type="number" id="trf-amt" min="1" step="0.01" required>
+                </div>
+                <button type="submit" class="btn warning full-width">Confirm Transfer</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Apply Loan Modal -->
+    <div id="loanModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loanModal')">&times;</span>
+            <h2>Apply for Loan</h2>
+            <form id="form-loan" onsubmit="handleLoanSubmit(event)">
+                <div class="form-group">
+                    <label>Customer ID</label>
+                    <input type="number" id="loan-cust-id" required>
+                </div>
+                <div class="form-group">
+                    <label>Branch ID</label>
+                    <select id="loan-branch" required>
+                        <option value="BR001">BR001 - Downtown</option>
+                        <option value="BR002">BR002 - Westside</option>
+                        <option value="BR003">BR003 - Northpark</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Loan Amount ($)</label>
+                    <input type="number" id="loan-amt" min="1000" step="100" required>
+                </div>
+                <button type="submit" class="btn primary full-width">Submit Application</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
